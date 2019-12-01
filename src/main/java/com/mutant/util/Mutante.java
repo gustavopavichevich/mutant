@@ -1,49 +1,20 @@
 package com.mutant.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Mutante {
 
-// declaracion de variables estaticas
-	private static String[] dna = { "ATGCGA", "CAGTGC", "TTATGT", "AGAAGG", "CCCCTA", "TCACTG" };
-	private static int n = dna.length;
-
-// inicio de operaciones
-	public static void main(String[] args) {
-		if (isMutant(armaMatriz(dna)))
-			mostrarMatriz(armaMatriz(dna), n);
-	}
-
-// armado de matriz a partir de una secuencia de datos strings
-	public static char[][] armaMatriz(String[] secuencia) {
-		char matriz[][] = new char[n][n];
-		int cont = 0;
-
-		for (int x = 0; x < n; x++) {
-			for (int y = 0; y < n; y++) {
-				matriz[x][y] = secuencia[x].charAt(cont);
-				cont++;
-			}
-			cont = 0;
-		}
-		return matriz;
-	}
-
-// metodo para mostrar la matriz por consola
-	public static void mostrarMatriz(char[][] matriz, int n) {
-		System.out.println("Matriz:");
-		String str = "";
-		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < n; j++) {
-				str += matriz[i][j] + "\t";
-			}
-			System.out.println(str);
-			str = "";
-		}
-	}
-
-// estudiar matriz
-	public static boolean isMutant(char[][] matNxN) {
+	/***
+	 * Verifica que una matriz cuadrada contenga ADN Mutante. Controla que sea en una cadena de 4 apariciones
+	 *  del siguiente conjunto de caracteres: {A,T,C,G}
+	 * @param matNxN	Matriz de NxN, tal que N es entero
+	 * @param n			Entero que contiene la cantidad de columnas y filas de la matriz matNxN
+	 * @return	Boolean true / false
+	 */
+	public boolean isMutant(char[][] matNxN, int n) {
 		char matriz[][] = new char[10][4];
-		int mutante = 0;
+		List<String> listaMutante = new ArrayList<>();
 		int contador = 0;
 		for (int i = 0; i < n - 3; i++) {
 			for (int j = 0; j < n - 3; j++) {
@@ -96,33 +67,39 @@ public class Mutante {
 				matriz[9][1] = matNxN[i + 1][j + 2];
 				matriz[9][2] = matNxN[i + 2][j + 1];
 				matriz[9][3] = matNxN[i + 3][j];
-				contador = analizar10x4(matriz);
-				if (contador != 0) {
-					mutante += contador;
-				}
+				listaMutante.addAll(analizar10x4(matriz));
 			}
 		}
-		if (mutante > 1) {
-			System.out.println("valor de mutante: " + mutante);
+		// verifico la aparicion de adn mutante en la estructura enviada
+		contador = listaMutante.size();
+		if (contador > 1) {
+			System.out.println("valor de mutante: " + contador);
 			return true;
 		}
 
 		return false;
 	}
 
-//analisis de la matriz resultante
-	public static int analizar10x4(char[][] matNxN) {
-		int contador = 0;
-//		 barrido horizontal
+	/***
+	 * Analisis de una matriz[10][4] para detectar valores iguales entre sus caractares dada sus filas.
+	 * @param matrix	Matriz de NxN, tal que N es entero
+	 * @return	List<String> contiene un listado de String si y solo si se encontro recurrencia de valores
+	 */
+	
+	public List<String> analizar10x4(char[][] matNxN) {
+		List<String> lista = new ArrayList<>();
+		String auxiliar = null;
+		// barrido horizontal
 		for (int i = 0; i < 10; i++) {
-			int j = 0;
-			if ((matNxN[i][j] == matNxN[i][j + 1]) && (matNxN[i][j] == matNxN[i][j + 2])
-					&& (matNxN[i][j] == matNxN[i][j + 3])) {
-				contador++;
-				System.out.println(String.valueOf(matNxN[i][j]) + String.valueOf(matNxN[i][j + 1])
-						+ String.valueOf(matNxN[i][j + 2]) + String.valueOf(matNxN[i][j + 3]));
+			if ((matNxN[i][0] == matNxN[i][1]) && (matNxN[i][0] == matNxN[i][2]) && (matNxN[i][0] == matNxN[i][3])) {
+				auxiliar = 		String.valueOf(matNxN[i][0]) + 
+								String.valueOf(matNxN[i][1]) + 
+								String.valueOf(matNxN[i][2]) + 
+								String.valueOf(matNxN[i][3]);
+				lista.add(auxiliar);
+				System.out.println(auxiliar);
 			}
 		}
-		return contador;
+		return null;
 	}
 }
