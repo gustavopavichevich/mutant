@@ -16,7 +16,7 @@ public class MvcConfig implements WebMvcConfigurer{
 		DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create(); 
 		if(urlEntorno==null) {
 			System.out.println("ATENCION : Variable de entorno CLEARDB_DATABASE_URL no encontrada");
-			dataSourceBuilder.url("jdbc:mysql://localhost:3306/mutant?user=root&password=root");
+			dataSourceBuilder.url("jdbc:mysql://localhost:3306/mutant?serverTimezone=America/Santiago&useSSL=false&allowPublicKeyRetrieval=true");
 			dataSourceBuilder.username("root");
 			dataSourceBuilder.password("root");
 		} else {
